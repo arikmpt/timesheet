@@ -30,7 +30,9 @@ import {
 } from '../ui/sidebar';
 import { NavUser } from './nav-user';
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+    ...props
+}: React.ComponentProps<typeof Sidebar> & { email: string; name: string }) {
     const menus = useMenu();
     const { open } = useSidebar();
 
@@ -140,7 +142,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser />
+                <NavUser email={props.email} name={props.name} />
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>

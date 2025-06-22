@@ -6,11 +6,16 @@ export const getSessionUser = async () => {
     const sessionId = cookieStore.get('auth_session')?.value;
     if (!sessionId) return null;
 
+    const name = cookieStore.get('user_name')?.value;
+
+    if (!name) return null;
+
     const { session, user } = await lucia.validateSession(sessionId);
     if (!session || !user) return null;
 
     return {
         user,
         session,
+        name,
     };
 };

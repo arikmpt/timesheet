@@ -8,11 +8,18 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { routes } from '@/constants/routes';
 import { useProfile } from '@/hooks/queries/use-profile';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
-export default function EditProfilePage() {
+export default function ProfilePage() {
     const { data: profile, isLoading } = useProfile();
+    const router = useRouter();
+
+    const onGoToEditProfile = () => {
+        router.push(routes.EDIT_PROFILE);
+    };
 
     return (
         <div className={'flex flex-1 flex-col gap-4 p-4'}>
@@ -63,7 +70,11 @@ export default function EditProfilePage() {
                         </div>
                     </CardContent>
                     <CardFooter className={'flex flex-col gap-3'}>
-                        <Button variant={'default'} disabled={isLoading}>
+                        <Button
+                            variant={'default'}
+                            disabled={isLoading}
+                            onClick={onGoToEditProfile}
+                        >
                             {'Edit Profile'}
                         </Button>
                     </CardFooter>

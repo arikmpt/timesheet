@@ -61,6 +61,12 @@ export const login = async ({
             sessionCookie.attributes
         );
 
+        cookieStore.set(
+            'user_name',
+            `${existingUser.profile?.firstName} ${existingUser.profile?.lastName}`,
+            sessionCookie.attributes
+        );
+
         return {
             message: 'Login success',
         };

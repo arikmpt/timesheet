@@ -21,8 +21,14 @@ import {
 } from '@/components/ui/sidebar';
 import { routes } from '@/constants/routes';
 import { useLogout } from '@/hooks/queries/use-logout';
+import { getInitials } from '@/lib/utils';
 
-export function NavUser() {
+interface IProps {
+    email: string;
+    name: string;
+}
+
+export function NavUser({ email, name }: IProps) {
     const { isMobile } = useSidebar();
     const router = useRouter();
 
@@ -53,7 +59,7 @@ export function NavUser() {
                         >
                             <Avatar className={'h-8 w-8 rounded-lg'}>
                                 <AvatarFallback className={'rounded-lg'}>
-                                    {'CN'}
+                                    {getInitials(name)}
                                 </AvatarFallback>
                             </Avatar>
                             <div
@@ -61,11 +67,11 @@ export function NavUser() {
                                     'grid flex-1 text-left text-sm leading-tight'
                                 }
                             >
-                                <span
-                                    className={'truncate font-semibold'}
-                                >{`Profile`}</span>
+                                <span className={'truncate font-semibold'}>
+                                    {name}
+                                </span>
                                 <span className={'truncate text-xs'}>
-                                    {'email@email.com'}
+                                    {email}
                                 </span>
                             </div>
                             <ChevronsUpDown className={'ml-auto size-4'} />
@@ -87,7 +93,7 @@ export function NavUser() {
                             >
                                 <Avatar className={'h-8 w-8 rounded-lg'}>
                                     <AvatarFallback className={'rounded-lg'}>
-                                        {'CN'}
+                                        {getInitials(name)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div
@@ -95,11 +101,11 @@ export function NavUser() {
                                         'grid flex-1 text-left text-sm leading-tight'
                                     }
                                 >
-                                    <span
-                                        className={'truncate font-semibold'}
-                                    >{`Profile`}</span>
+                                    <span className={'truncate font-semibold'}>
+                                        {name}
+                                    </span>
                                     <span className={'truncate text-xs'}>
-                                        {'email@email.com'}
+                                        {email}
                                     </span>
                                 </div>
                             </div>

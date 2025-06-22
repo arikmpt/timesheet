@@ -11,7 +11,6 @@ export default async function PrivateLayout({
     children: React.ReactNode;
 }>) {
     const session = await getSessionUser();
-
     if (!session) {
         redirect(routes.LOGIN);
     }
@@ -24,7 +23,7 @@ export default async function PrivateLayout({
             disableTransitionOnChange
         >
             <SidebarProvider>
-                <AppSidebar />
+                <AppSidebar email={session.user.email} name={session.name} />
                 <SidebarInset>{children}</SidebarInset>
             </SidebarProvider>
         </ThemeProvider>
