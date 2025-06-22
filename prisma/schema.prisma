@@ -16,6 +16,7 @@ datasource db {
 
 model User {
   id                  Int       @id @default(autoincrement())
+  uuid                String    @default(uuid()) @unique
   email               String    @db.VarChar(80)
   password            String
   isActive            Boolean   @default(true) @map("is_active")
@@ -36,10 +37,10 @@ model User {
 }
 
 model Session {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @map("user_id")
+  id        String   @id
+  userId     String    @db.VarChar(80)  @map("user_id")
   expiresAt DateTime @map("expires_at")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [uuid], onDelete: Cascade)
 }
 
 model Profile {
