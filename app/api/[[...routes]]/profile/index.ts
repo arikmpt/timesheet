@@ -1,6 +1,6 @@
 import prismaService from '@prisma-service';
 import Elysia from 'elysia';
-import { getProfile, updateProfile } from './handlers';
+import { changePassword, getProfile, updateProfile } from './handlers';
 import { authMiddleware } from '../auth/middleware';
 import { profileSchema } from './schema';
 
@@ -20,6 +20,14 @@ const profileRoutes = new Elysia({
             updateProfile({ body, prisma, session }),
         {
             body: 'update',
+        }
+    )
+    .patch(
+        '/change-password',
+        async ({ body, prisma, session }) =>
+            changePassword({ body, prisma, session }),
+        {
+            body: 'changePassword',
         }
     );
 

@@ -1,7 +1,10 @@
 import { WithPrisma } from '@/app/db';
 import { lucia } from '@/app/rpc/auth';
-import { GetProfileRequest } from '@/app/rpc/types';
+import { GetChangePasswordRequest, GetProfileRequest } from '@/app/rpc/types';
 import { Session } from 'lucia';
+import bcrypt from 'bcrypt';
+import config from '@/config';
+import { cookies } from 'next/headers';
 
 export const getProfile = async ({
     prisma,
@@ -92,5 +95,74 @@ export const updateProfile = async ({
     return {
         message: 'Successfully update profile',
         profile,
+    };
+};
+
+export const changePassword = async ({
+    body,
+    prisma,
+    session,
+}: {
+    body: GetChangePasswordRequest;
+    session: Session | null;
+} & WithPrisma) => {
+    if (!session) {
+        throw new Error('Unauthorized');
+    }
+
+    const { user } = await lucia.validateSession(session.id);
+
+    if (!user) {
+        throw new Error('Invalid User Session');
+    }
+
+    const findUser = await prisma.user.findFirst({
+        where: {
+            uuid: user.uuid,
+        },
+    });
+
+    if (!findUser) {
+        throw new Error('Invalid User Data');
+    }
+
+    if (body.confirmPassword !== body.newPassword) {
+        throw new Error('New password must be same with confirm password');
+    }
+
+    if (!(await bcrypt.compare(body.oldPassword, findUser.password))) {
+        throw new Error('Old password not valid');
+    }
+
+    const cryptedPassword = await bcrypt.hash(
+        body.confirmPassword,
+        config.saltRound
+    );
+
+    const update = await prisma.user.update({
+        where: {
+            id: findUser.id,
+        },
+        data: {
+            password: cryptedPassword,
+        },
+    });
+
+    if (!update) {
+        throw new Error(`Failed to process your request`);
+    }
+
+    await lucia.invalidateSession(session.id);
+
+    const sessionCookie = lucia.createBlankSessionCookie();
+    const cookieStore = await cookies();
+    cookieStore.set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+    );
+
+    return {
+        message: 'Successfully change password',
     };
 };

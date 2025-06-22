@@ -10,4 +10,9 @@ export const profileSchema = {
         placeOfBirth: t.Nullable(t.String()),
         address: t.Nullable(t.String()),
     }),
+    changePassword: t.Object({
+        oldPassword: t.String(),
+        newPassword: t.String(),
+        confirmPassword: t.String(),
+    }),
 };
