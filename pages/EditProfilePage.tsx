@@ -24,6 +24,7 @@ import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { routes } from '@/constants/routes';
 import { useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 
 const formSchema = z.object({
     address: z.string().nullable(),
@@ -197,7 +198,16 @@ export default function EditProfilePage() {
                                     </div>
                                 </div>
                             </CardContent>
-                            <CardFooter className={'flex justify-end'}>
+                            <CardFooter className={'flex justify-between'}>
+                                <Button
+                                    type={'button'}
+                                    asChild
+                                    variant={'outline'}
+                                >
+                                    <Link href={routes.PROFILE}>
+                                        {'Kembali'}
+                                    </Link>
+                                </Button>
                                 <Button type={'submit'}>{'Submit'}</Button>
                             </CardFooter>
                         </Card>
