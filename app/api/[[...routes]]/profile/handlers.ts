@@ -24,7 +24,11 @@ export const getProfile = async ({
             },
         },
         include: {
-            user: true,
+            user: {
+                select: {
+                    email: true,
+                },
+            },
         },
     });
 
