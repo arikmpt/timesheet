@@ -108,7 +108,7 @@ export function NavUser() {
                         <DropdownMenuGroup>
                             <DropdownMenuItem onClick={goToProfile}>
                                 <User />
-                                {'Edit Profile'}
+                                {'Profile'}
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={goToChangePassword}>
                                 <CogIcon />

@@ -3,6 +3,7 @@ import swagger from '@elysiajs/swagger';
 import Elysia from 'elysia';
 import { authMiddleware } from './auth/middleware';
 import authRoutes from './auth';
+import profileRoutes from './profile';
 
 const corsConfig = {
     origin: '*',
@@ -38,7 +39,15 @@ const app = new Elysia({ prefix: '/api' })
         };
     })
     .use(authMiddleware)
-    .use(authRoutes);
+    .use(authRoutes)
+    .guard(
+        {
+            async beforeHandle({ set, session }) {
+                if (!session) return (set.status = 'Unauthorized');
+            },
+        },
+        (app) => app.use(profileRoutes)
+    );
 
 // Expose methods
 export const GET = app.handle;
