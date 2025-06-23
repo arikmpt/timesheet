@@ -1,4 +1,4 @@
-import { CircleGauge, LucideIcon } from 'lucide-react';
+import { CircleGauge, LucideIcon, ShieldAlert } from 'lucide-react';
 import { useMemo } from 'react';
 import { routes } from '@/constants/routes';
 
@@ -21,6 +21,11 @@ export default function useMenu() {
                 icon: CircleGauge,
                 title: 'Dashboard',
                 url: routes.ROOT,
+            },
+            {
+                icon: ShieldAlert,
+                title: 'Role Management',
+                url: routes.ROLE_MANAGEMENT,
             },
         ],
         []

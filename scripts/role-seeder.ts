@@ -44,9 +44,22 @@ const ALL_PERMISSIONS = [
 
 async function roleSeeder(prisma: PrismaClient) {
     for (const name of ROLES) {
-        const exists = await prisma.role.findFirst({ where: { name } });
+        const exists = await prisma.role.findFirst({
+            where: { key: name.toLocaleLowerCase() },
+        });
         if (!exists) {
-            await prisma.role.create({ data: { name } });
+            await prisma.role.create({
+                data: { name, key: name.toLocaleLowerCase() },
+            });
+        } else {
+            await prisma.role.update({
+                where: {
+                    id: exists.id,
+                },
+                data: {
+                    key: name.toLocaleLowerCase(),
+                },
+            });
         }
     }
 }

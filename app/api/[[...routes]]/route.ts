@@ -4,6 +4,7 @@ import Elysia from 'elysia';
 import { authMiddleware } from './auth/middleware';
 import authRoutes from './auth';
 import profileRoutes from './profile';
+import roleRoutes from './roles';
 
 const corsConfig = {
     origin: '*',
@@ -46,7 +47,7 @@ const app = new Elysia({ prefix: '/api' })
                 if (!session) return (set.status = 'Unauthorized');
             },
         },
-        (app) => app.use(profileRoutes)
+        (app) => app.use(profileRoutes).use(roleRoutes)
     );
 
 // Expose methods
